@@ -15,8 +15,11 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
+app.use(cors({
+    origin: ['https://shopper-ecommerce-admin-dun.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
 app.use('/images', express.static('upload/images'))  // serve the files available in upload/images folder on images route
 
