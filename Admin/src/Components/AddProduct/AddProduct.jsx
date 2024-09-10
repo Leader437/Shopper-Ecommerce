@@ -11,7 +11,7 @@ const AddProduct = () => {
     old_price: 0,
   });
 
-  const URL = import.meta.env.VITE_BACKEND_URL;
+  const url = import.meta.env.VITE_BACKEND_URL;
 
   const handleImg = (e) => {
     setImg(e.target.files[0]);
@@ -35,7 +35,7 @@ const AddProduct = () => {
     formData.append("new_price", ProductDetails.new_price);
     formData.append("product", Img);
 
-    await fetch(`${URL}/upload`, {
+    await fetch(`${url}/upload`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -51,7 +51,7 @@ const AddProduct = () => {
       product.image = responseData.image_url;
       console.log(product);
 
-      await fetch(`${URL}/addproduct`, {
+      await fetch(`${url}/addproduct`, {
         method: "POST",
         headers: {
           Accept: "application/json",
