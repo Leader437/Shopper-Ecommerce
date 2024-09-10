@@ -1,0 +1,11 @@
+.collection_heading::after {
+    content: "";
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 3px;
+    background-color: #171717;
+    border-radius: 50%;
+}
