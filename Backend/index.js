@@ -16,11 +16,11 @@ const port = 3000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: ['https://shopper-ecommerce-admin-dun.vercel.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-
+// app.use(cors({
+//     origin: ['https://shopper-ecommerce-admin-dun.vercel.app'],
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+// }));
+app.use(cors());
 app.use('/images', express.static('upload/images'))  // serve the files available in upload/images folder on images route
 
 // Connecting Database through Mongoose
@@ -33,25 +33,6 @@ mongoose.connect(process.env.DATABASE_URL)
 /*************************
 *** Model/Table Schema ***
 *************************/
-
-// const Product = mongoose.model("Product", {
-//     id: { type: Number, required: true, unique: true },
-//     name: { type: String, required: true },
-//     image: { type: String, required: true },
-//     category: { type: String, required: true },
-//     old_price: { type: Number, required: true },
-//     new_price: { type: Number, required: true },
-//     date: { type: Date, default: Date.now },
-//     available: { type: Boolean, default: true }
-// });
-
-// const User = mongoose.model("User", {
-//     name: { type: String, required: true },
-//     email: { type: String, required: true, unique: true },
-//     password: { type: String, required: true },
-//     cartData: { type: Object },
-//     Date: { type: Date, default: Date.now }
-// });
 
 const Product = mongoose.models.Product || mongoose.model('Product', {
     id: { type: Number, required: true, unique: true },
@@ -196,13 +177,18 @@ app.post("/saveCartData", fetchUser, async (req, res) => {
     let ItemId = req.body.ItemId;
     let userId = req.user.id;
 
-    if (ItemId && userId) {
-        await User.findOneAndUpdate({ _id: userId }, { $inc: { [`cartData.${ItemId}`]: 1 } });
-        console.log("Successfully Added Product no.", ItemId);
-        res.status(200).json({ success: 1 });
+    if (userId) {
+        if (ItemId) {
+            await User.findOneAndUpdate({ _id: userId }, { $inc: { [`cartData.${ItemId}`]: 1 } });
+            console.log("Successfully Added Product no.", ItemId);
+            res.status(200).json({ success: 1 });
+        } else {
+            console.log("Error Adding Product no.", ItemId);
+            res.status(400).json({ success: 0, error: "Something went wrong" });
+        }
     } else {
         console.log("Error Adding Product no.", ItemId);
-        res.status(400).json({ success: 0, error: "Something went wrong" });
+        res.status(400).json({ success: 0, error: "Please Login to access Cart" });
     }
 })
 

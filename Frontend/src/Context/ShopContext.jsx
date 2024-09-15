@@ -65,6 +65,8 @@ const ShopContextProvider = (props) => {
       } else {
         alert(result.error);
       }
+    } else {
+      alert("Please Login to add product to the Cart");
     }
   };
 
