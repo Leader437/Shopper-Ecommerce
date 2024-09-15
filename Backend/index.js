@@ -34,7 +34,26 @@ mongoose.connect(process.env.DATABASE_URL)
 *** Model/Table Schema ***
 *************************/
 
-const Product = mongoose.model("Product", {
+// const Product = mongoose.model("Product", {
+//     id: { type: Number, required: true, unique: true },
+//     name: { type: String, required: true },
+//     image: { type: String, required: true },
+//     category: { type: String, required: true },
+//     old_price: { type: Number, required: true },
+//     new_price: { type: Number, required: true },
+//     date: { type: Date, default: Date.now },
+//     available: { type: Boolean, default: true }
+// });
+
+// const User = mongoose.model("User", {
+//     name: { type: String, required: true },
+//     email: { type: String, required: true, unique: true },
+//     password: { type: String, required: true },
+//     cartData: { type: Object },
+//     Date: { type: Date, default: Date.now }
+// });
+
+const Product = mongoose.models.Product || mongoose.model('Product', {
     id: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     image: { type: String, required: true },
@@ -45,13 +64,14 @@ const Product = mongoose.model("Product", {
     available: { type: Boolean, default: true }
 });
 
-const User = mongoose.model("User", {
+const User = mongoose.models.User || mongoose.model('User', {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     cartData: { type: Object },
     Date: { type: Date, default: Date.now }
 });
+
 
 
 /***************************
